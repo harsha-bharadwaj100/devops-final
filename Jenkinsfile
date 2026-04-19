@@ -13,7 +13,7 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
+        stage('Build & Test with Coverage') {
             steps {
                 bat 'mvn clean test'
             }
@@ -22,7 +22,8 @@ pipeline {
 
     post {
         always {
-            junit '**/target/surefire-reports/*.xml'
-        }
+			junit '**/target/surefire-reports/*.xml'
+			archiveArtifacts artifacts: 'target/site/jacoco/**', fingerprint: true
+		}
     }
 }
